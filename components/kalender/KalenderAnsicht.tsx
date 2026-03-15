@@ -114,6 +114,7 @@ export function KalenderAnsicht({ entries, requests, currentUserId, isAdmin, pre
         .rdp-custom button { touch-action: manipulation; }
       `}</style>
 
+      <div className="flex justify-center">
       <DayPicker
         mode="range"
         selected={selectedRange}
@@ -127,6 +128,7 @@ export function KalenderAnsicht({ entries, requests, currentUserId, isAdmin, pre
           { before: new Date() },
         ]}
       />
+      </div>
 
       {selectedRange?.from && selectedRange?.to && (
         <AnfrageModal
