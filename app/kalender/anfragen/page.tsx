@@ -3,10 +3,13 @@ import { AnfragenListe } from '@/components/kalender/AnfragenListe'
 import { buttonVariants } from '@/components/ui/button'
 import Link from 'next/link'
 import type { VisitRequest } from '@/types'
+import { redirect } from 'next/navigation'
 
 export default async function MeineAnfragenPage() {
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
+
+  if (!user) redirect('/login')
 
   const { data: requests } = await supabase
     .from('visit_requests')

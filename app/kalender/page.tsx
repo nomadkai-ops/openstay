@@ -4,11 +4,14 @@ import type { CalendarEntry, VisitRequest, Profile } from '@/types'
 import { logout } from '@/lib/actions/auth'
 import { Button } from '@/components/ui/button'
 import Link from 'next/link'
+import { redirect } from 'next/navigation'
 
 export default async function KalenderPage() {
   const supabase = await createClient()
 
   const { data: { user } } = await supabase.auth.getUser()
+
+  if (!user) redirect('/login')
 
   const [profileResult, entriesResult, requestsResult] = await Promise.all([
     supabase.from('profiles').select('*').eq('id', user!.id).single(),
