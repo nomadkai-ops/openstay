@@ -2,19 +2,12 @@
 
 import { createClient } from '@/lib/supabase/server'
 import { revalidatePath } from 'next/cache'
-
-async function requireAdmin(supabase: Awaited<ReturnType<typeof createClient>>) {
-  const { data: { user } } = await supabase.auth.getUser()
-  if (!user) return null
-  const { data: profile } = await supabase.from('profiles').select('role').eq('id', user.id).single()
-  if (profile?.role !== 'admin') return null
-  return user
-}
+import { requireAdmin } from './helpers'
 
 export async function approveNutzer(userId: string) {
   const supabase = await createClient()
 
-  const admin = await requireAdmin(supabase)
+  const admin = await requireAdmin()
   if (!admin) return { error: 'Keine Berechtigung.' }
 
   const { data: profile } = await supabase
@@ -46,7 +39,7 @@ export async function approveNutzer(userId: string) {
 export async function blockNutzer(userId: string) {
   const supabase = await createClient()
 
-  const admin = await requireAdmin(supabase)
+  const admin = await requireAdmin()
   if (!admin) return { error: 'Keine Berechtigung.' }
 
   const { error } = await supabase

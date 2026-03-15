@@ -8,17 +8,32 @@ import type { Profile } from '@/types'
 
 export function NutzerTabelle({ users }: { users: Profile[] }) {
   const [loading, setLoading] = useState<string | null>(null)
+  const [actionError, setActionError] = useState<string | null>(null)
 
   async function handleApprove(id: string) {
     setLoading(id + '-approve')
-    await approveNutzer(id)
-    setLoading(null)
+    setActionError(null)
+    try {
+      const result = await approveNutzer(id)
+      if (result?.error) setActionError(result.error)
+    } catch {
+      setActionError('Fehler beim Freischalten. Bitte versuche es erneut.')
+    } finally {
+      setLoading(null)
+    }
   }
 
   async function handleBlock(id: string) {
     setLoading(id + '-block')
-    await blockNutzer(id)
-    setLoading(null)
+    setActionError(null)
+    try {
+      const result = await blockNutzer(id)
+      if (result?.error) setActionError(result.error)
+    } catch {
+      setActionError('Fehler beim Sperren. Bitte versuche es erneut.')
+    } finally {
+      setLoading(null)
+    }
   }
 
   if (users.length === 0) {
@@ -61,6 +76,7 @@ export function NutzerTabelle({ users }: { users: Profile[] }) {
           </div>
         </div>
       ))}
+      {actionError && <p className="text-sm text-red-600 mt-4">{actionError}</p>}
     </div>
   )
 }

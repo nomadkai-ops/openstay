@@ -20,24 +20,46 @@ const statusLabels: Record<RequestStatus, string> = {
 export function AnfragenTabelle({ requests }: { requests: VisitRequest[] }) {
   const [loading, setLoading] = useState<string | null>(null)
   const [confirmCancel, setConfirmCancel] = useState<string | null>(null)
+  const [actionError, setActionError] = useState<string | null>(null)
 
   async function handleApprove(id: string) {
     setLoading(id + '-approve')
-    await approveAnfrage(id)
-    setLoading(null)
+    setActionError(null)
+    try {
+      const result = await approveAnfrage(id)
+      if (result?.error) setActionError(result.error)
+    } catch {
+      setActionError('Fehler beim Bestätigen. Bitte versuche es erneut.')
+    } finally {
+      setLoading(null)
+    }
   }
 
   async function handleReject(id: string) {
     setLoading(id + '-reject')
-    await rejectAnfrage(id)
-    setLoading(null)
+    setActionError(null)
+    try {
+      const result = await rejectAnfrage(id)
+      if (result?.error) setActionError(result.error)
+    } catch {
+      setActionError('Fehler beim Ablehnen. Bitte versuche es erneut.')
+    } finally {
+      setLoading(null)
+    }
   }
 
   async function handleCancel(id: string) {
     setLoading(id + '-cancel')
-    await cancelAnfrage(id)
-    setLoading(null)
-    setConfirmCancel(null)
+    setActionError(null)
+    try {
+      const result = await cancelAnfrage(id)
+      if (result?.error) setActionError(result.error)
+    } catch {
+      setActionError('Fehler beim Stornieren. Bitte versuche es erneut.')
+    } finally {
+      setLoading(null)
+      setConfirmCancel(null)
+    }
   }
 
   if (requests.length === 0) {
@@ -123,6 +145,7 @@ export function AnfragenTabelle({ requests }: { requests: VisitRequest[] }) {
           </DialogFooter>
         </DialogContent>
       </Dialog>
+      {actionError && <p className="text-sm text-red-600 mt-4">{actionError}</p>}
     </>
   )
 }

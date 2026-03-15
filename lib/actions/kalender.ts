@@ -2,27 +2,32 @@
 
 import { createClient } from '@/lib/supabase/server'
 import { revalidatePath } from 'next/cache'
-
-async function requireAdmin(supabase: Awaited<ReturnType<typeof createClient>>) {
-  const { data: { user } } = await supabase.auth.getUser()
-  if (!user) return null
-  const { data: profile } = await supabase.from('profiles').select('role').eq('id', user.id).single()
-  if (profile?.role !== 'admin') return null
-  return user
-}
+import { requireAdmin } from './helpers'
 
 export async function createKalenderBlock(formData: FormData) {
   const supabase = await createClient()
 
-  const admin = await requireAdmin(supabase)
+  const admin = await requireAdmin()
   if (!admin) return { error: 'Keine Berechtigung.' }
 
+  const type = formData.get('type') as string
+  const title = (formData.get('title') as string)?.trim()
+  const start_date = formData.get('start_date') as string
+  const end_date = formData.get('end_date') as string
+  const notes = (formData.get('notes') as string)?.trim() || null
+
+  const allowedTypes = ['travel', 'blocked', 'custom']
+  if (!allowedTypes.includes(type)) return { error: 'Ungültiger Eintragstyp.' }
+  if (!title) return { error: 'Titel ist erforderlich.' }
+  if (!start_date || !end_date) return { error: 'Datum ist erforderlich.' }
+  if (start_date > end_date) return { error: 'Startdatum muss vor dem Enddatum liegen.' }
+
   const { error } = await supabase.from('calendar_entries').insert({
-    type: formData.get('type') as string,
-    title: formData.get('title') as string,
-    start_date: formData.get('start_date') as string,
-    end_date: formData.get('end_date') as string,
-    notes: (formData.get('notes') as string) || null,
+    type,
+    title,
+    start_date,
+    end_date,
+    notes,
   })
 
   if (error) return { error: 'Eintrag konnte nicht erstellt werden.' }
@@ -35,7 +40,7 @@ export async function createKalenderBlock(formData: FormData) {
 export async function deleteKalenderBlock(id: string) {
   const supabase = await createClient()
 
-  const admin = await requireAdmin(supabase)
+  const admin = await requireAdmin()
   if (!admin) return { error: 'Keine Berechtigung.' }
 
   const { error } = await supabase
