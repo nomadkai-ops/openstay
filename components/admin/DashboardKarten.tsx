@@ -100,7 +100,7 @@ export function DashboardKarten({ pendingRequests, upcomingVisits, pendingUsers,
             .admin-mini-cal .rdp-day-guest { background-color: #bfdbfe !important; }
             .admin-mini-cal .rdp { margin: 0; }
           `}</style>
-          <div className="admin-mini-cal pointer-events-none">
+          <div className="admin-mini-cal">
             <DayPicker
               locale={de}
               modifiers={{ blocked: blockedDays, guest: guestDays }}
