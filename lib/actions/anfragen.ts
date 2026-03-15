@@ -3,6 +3,14 @@
 import { createClient } from '@/lib/supabase/server'
 import { revalidatePath } from 'next/cache'
 
+async function requireAdmin(supabase: Awaited<ReturnType<typeof createClient>>) {
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user) return null
+  const { data: profile } = await supabase.from('profiles').select('role').eq('id', user.id).single()
+  if (profile?.role !== 'admin') return null
+  return user
+}
+
 export async function createAnfrage(formData: FormData) {
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
@@ -10,12 +18,22 @@ export async function createAnfrage(formData: FormData) {
 
   const start_date = formData.get('start_date') as string
   const end_date = formData.get('end_date') as string
-  const name = formData.get('name') as string
-  const email = formData.get('email') as string
-  const phone = formData.get('phone') as string | null
+  const name = (formData.get('name') as string)?.trim()
+  const email = (formData.get('email') as string)?.trim()
+  const phone = (formData.get('phone') as string)?.trim() || null
   const guest_count = parseInt(formData.get('guest_count') as string, 10)
-  const message = formData.get('message') as string
+  const message = (formData.get('message') as string)?.trim()
   const request_type = (formData.get('request_type') as string) || null
+
+  if (!start_date || !end_date || !name || !email || !message) {
+    return { error: 'Pflichtfelder fehlen.' }
+  }
+  if (start_date > end_date) {
+    return { error: 'Startdatum muss vor dem Enddatum liegen.' }
+  }
+  if (isNaN(guest_count) || guest_count < 1) {
+    return { error: 'Ungültige Personenzahl.' }
+  }
 
   const { data, error } = await supabase
     .from('visit_requests')
@@ -25,7 +43,7 @@ export async function createAnfrage(formData: FormData) {
       end_date,
       name,
       email,
-      phone: phone || null,
+      phone,
       guest_count,
       message,
       request_type: request_type || null,
@@ -49,6 +67,9 @@ export async function createAnfrage(formData: FormData) {
 
 export async function approveAnfrage(id: string) {
   const supabase = await createClient()
+
+  const admin = await requireAdmin(supabase)
+  if (!admin) return { error: 'Keine Berechtigung.' }
 
   const { data: request } = await supabase
     .from('visit_requests')
@@ -94,6 +115,9 @@ export async function approveAnfrage(id: string) {
 export async function rejectAnfrage(id: string) {
   const supabase = await createClient()
 
+  const admin = await requireAdmin(supabase)
+  if (!admin) return { error: 'Keine Berechtigung.' }
+
   const { data: request } = await supabase
     .from('visit_requests')
     .select('name, email, start_date, end_date')
@@ -128,6 +152,9 @@ export async function rejectAnfrage(id: string) {
 
 export async function cancelAnfrage(id: string) {
   const supabase = await createClient()
+
+  const admin = await requireAdmin(supabase)
+  if (!admin) return { error: 'Keine Berechtigung.' }
 
   const { data: request } = await supabase
     .from('visit_requests')
