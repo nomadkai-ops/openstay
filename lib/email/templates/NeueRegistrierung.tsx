@@ -1,4 +1,4 @@
-import { Html, Head, Body, Container, Heading, Text, Section } from '@react-email/components'
+import { Html, Head, Body, Container, Heading, Text } from '@react-email/components'
 
 interface Props {
   name: string

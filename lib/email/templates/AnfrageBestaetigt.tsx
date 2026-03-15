@@ -1,4 +1,4 @@
-import { Html, Head, Body, Container, Heading, Text, Section } from '@react-email/components'
+import { Html, Head, Body, Container, Heading, Text } from '@react-email/components'
 import { formatDateRange } from '@/lib/utils/datum'
 
 interface Props { name: string; email: string; start_date: string; end_date: string }
