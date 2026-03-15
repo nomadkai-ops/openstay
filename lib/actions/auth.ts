@@ -35,7 +35,10 @@ export async function register(formData: FormData) {
   })
 
   if (error) {
-    return { error: error.message }
+    if (error.message.includes('already registered') || error.message.includes('User already registered')) {
+      return { error: 'Diese E-Mail-Adresse ist bereits registriert.' }
+    }
+    return { error: 'Registrierung fehlgeschlagen. Bitte versuche es erneut.' }
   }
 
   // Send admin notification email — module may not exist yet, ignore if missing

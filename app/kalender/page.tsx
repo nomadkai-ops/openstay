@@ -1,6 +1,9 @@
 import { createClient } from '@/lib/supabase/server'
 import { KalenderAnsicht } from '@/components/kalender/KalenderAnsicht'
 import type { CalendarEntry, VisitRequest, Profile } from '@/types'
+import { logout } from '@/lib/actions/auth'
+import { Button } from '@/components/ui/button'
+import Link from 'next/link'
 
 export default async function KalenderPage() {
   const supabase = await createClient()
@@ -22,7 +25,15 @@ export default async function KalenderPage() {
       <div className="max-w-4xl mx-auto px-4 py-8">
         <div className="flex items-center justify-between mb-8">
           <h1 className="text-2xl font-semibold text-stone-800">Kalender</h1>
-          <span className="text-sm text-stone-500">{profile.name}</span>
+          <div className="flex items-center gap-3">
+            <span className="text-sm text-stone-500">{profile.name}</span>
+            <Link href="/kalender/anfragen">
+              <Button variant="outline" size="sm">Meine Anfragen</Button>
+            </Link>
+            <form action={logout}>
+              <Button variant="ghost" size="sm" type="submit">Abmelden</Button>
+            </form>
+          </div>
         </div>
         <KalenderAnsicht
           entries={entries}
