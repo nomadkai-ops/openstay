@@ -54,7 +54,7 @@ export function KalenderAnsicht({ entries, requests, currentUserId, isAdmin, pre
 
   function handleSelect(range: DateRange | undefined) {
     setSelectedRange(range)
-    if (range?.from && range?.to) {
+    if (range?.from && range?.to && toDateStr(range.from) !== toDateStr(range.to)) {
       setModalOpen(true)
     }
   }
