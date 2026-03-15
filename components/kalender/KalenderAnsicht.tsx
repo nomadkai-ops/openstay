@@ -111,6 +111,7 @@ export function KalenderAnsicht({ entries, requests, currentUserId, isAdmin, pre
         .rdp-day-my-rejected { background-color: #fecaca !important; color: #7f1d1d !important; }
         .rdp-day-past { opacity: 0.4; pointer-events: none; }
         .rdp { margin: 0; }
+        .rdp-custom button { touch-action: manipulation; }
       `}</style>
 
       <DayPicker
