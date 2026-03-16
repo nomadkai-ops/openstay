@@ -22,7 +22,7 @@ export default async function MeineAnfragenPage() {
       <header className="bg-black/20 backdrop-blur-xl border-b border-white/10 px-4 py-3 sticky top-0 z-30">
         <div className="max-w-3xl mx-auto flex items-center justify-between">
           <Link href="/kalender" className="font-bold text-white tracking-tight text-lg hover:text-white/80">
-            ← OpenStay
+            <span aria-hidden="true">← </span>OpenStay
           </Link>
           <form action={logout}>
             <button type="submit" className="text-sm text-white/60 hover:text-white px-2 py-1 rounded hover:bg-white/10 transition-colors">

@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useMemo } from 'react'
 import { DayPicker, type DateRange } from 'react-day-picker'
 import { de } from 'date-fns/locale'
 import { isBefore } from 'date-fns'
@@ -12,7 +12,6 @@ interface Props {
   entries: CalendarEntry[]
   requests: VisitRequest[]
   currentUserId: string
-  isAdmin: boolean
   prefillName: string
   prefillEmail: string
 }
@@ -43,7 +42,7 @@ function getDayStatus(date: Date, entries: CalendarEntry[], requests: VisitReque
   return 'free'
 }
 
-export function KalenderAnsicht({ entries, requests, currentUserId, isAdmin, prefillName, prefillEmail }: Props) {
+export function KalenderAnsicht({ entries, requests, currentUserId, prefillName, prefillEmail }: Props) {
   const [selectedRange, setSelectedRange] = useState<DateRange | undefined>()
   const [modalOpen, setModalOpen] = useState(false)
 
@@ -58,14 +57,17 @@ export function KalenderAnsicht({ entries, requests, currentUserId, isAdmin, pre
     toDateStr(selectedRange.from) !== toDateStr(selectedRange.to)
   )
 
-  const modifiers = {
+  const today = new Date()
+  today.setHours(0, 0, 0, 0)
+
+  const modifiers = useMemo(() => ({
     blocked: (day: Date) => getDayStatus(day, entries, requests, currentUserId) === 'blocked',
     otherApproved: (day: Date) => getDayStatus(day, entries, requests, currentUserId) === 'other-approved',
     myPending: (day: Date) => getDayStatus(day, entries, requests, currentUserId) === 'pending',
     myApproved: (day: Date) => getDayStatus(day, entries, requests, currentUserId) === 'approved',
     myRejected: (day: Date) => getDayStatus(day, entries, requests, currentUserId) === 'rejected',
-    pastDay: (day: Date) => isBefore(day, new Date(new Date().setHours(0, 0, 0, 0))),
-  }
+    pastDay: (day: Date) => isBefore(day, today),
+  }), [entries, requests, currentUserId])  // eslint-disable-line react-hooks/exhaustive-deps
 
   const modifiersClassNames = {
     blocked: 'rdp-day-blocked',

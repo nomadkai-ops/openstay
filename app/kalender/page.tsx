@@ -53,7 +53,6 @@ export default async function KalenderPage() {
           entries={entries}
           requests={requests}
           currentUserId={user.id}
-          isAdmin={profile.role === 'admin'}
           prefillName={profile.name}
           prefillEmail={profile.email}
         />

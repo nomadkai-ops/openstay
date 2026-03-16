@@ -39,7 +39,7 @@ export function AnfragenListe({ requests }: { requests: VisitRequest[] }) {
             </span>
           </div>
           <p className="text-xs text-white/30 mt-3">
-            Angefragt am {new Date(r.created_at).toLocaleDateString('de-DE')}
+            Angefragt am {new Date(r.created_at).toLocaleDateString('de-DE', { timeZone: 'UTC' })}
           </p>
         </div>
       ))}

@@ -27,10 +27,12 @@ interface Props {
 }
 
 function useIsMobile() {
-  const [isMobile, setIsMobile] = useState(false)
+  const [isMobile, setIsMobile] = useState(() => {
+    if (typeof window === 'undefined') return false
+    return window.innerWidth < 768
+  })
   useEffect(() => {
     const check = () => setIsMobile(window.innerWidth < 768)
-    check()
     window.addEventListener('resize', check)
     return () => window.removeEventListener('resize', check)
   }, [])
@@ -68,15 +70,20 @@ function AnfrageFormContent({
   async function handleSubmit(formData: FormData) {
     setLoading(true)
     setError(null)
-    formData.set('start_date', startDate)
-    formData.set('end_date', endDate)
-    const result = await createAnfrage(formData)
-    if (result?.error) {
-      setError(result.error)
+    try {
+      formData.set('start_date', startDate)
+      formData.set('end_date', endDate)
+      const result = await createAnfrage(formData)
+      if (result?.error) {
+        setError(result.error)
+      } else {
+        setSuccess(true)
+        setTimeout(onSuccess, 2000)
+      }
+    } catch {
+      setError('Ein Fehler ist aufgetreten. Bitte versuche es erneut.')
+    } finally {
       setLoading(false)
-    } else {
-      setSuccess(true)
-      setTimeout(onSuccess, 2000)
     }
   }
 
