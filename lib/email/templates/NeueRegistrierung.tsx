@@ -1,25 +1,25 @@
-import { Html, Head, Body, Container, Heading, Text } from '@react-email/components'
+import { Heading, Text } from '@react-email/components'
+import { EmailLayout } from './EmailLayout'
 
-interface Props {
-  name: string
-  email: string
-}
+interface Props { name: string; email: string }
 
 export function NeueRegistrierung({ name, email }: Props) {
   return (
-    <Html lang="de">
-      <Head />
-      <Body style={{ fontFamily: 'Inter, sans-serif', backgroundColor: '#fafaf9', padding: '40px 0' }}>
-        <Container style={{ backgroundColor: '#ffffff', borderRadius: '12px', padding: '32px', maxWidth: '480px', margin: '0 auto', border: '1px solid #e7e5e4' }}>
-          <Heading style={{ fontSize: '20px', color: '#1c1917', marginBottom: '8px' }}>Neuer Nutzer wartet auf Freischaltung</Heading>
-          <Text style={{ color: '#57534e', fontSize: '14px' }}>
-            <strong>{name}</strong> ({email}) hat sich bei OpenStay registriert und wartet auf deine Freischaltung.
-          </Text>
-          <Text style={{ color: '#57534e', fontSize: '14px' }}>
-            Melde dich im Admin-Bereich an, um den Account freizuschalten.
-          </Text>
-        </Container>
-      </Body>
-    </Html>
+    <EmailLayout preview={`Neue Registrierung: ${name}`}>
+      <Heading style={h1}>Neue Registrierung</Heading>
+      <Text style={body}>Es hat sich ein neuer Nutzer registriert:</Text>
+      <div style={infoBox}>
+        <Text style={infoRow}><strong>Name:</strong> {name}</Text>
+        <Text style={infoRow}><strong>E-Mail:</strong> {email}</Text>
+      </div>
+      <Text style={body}>
+        Melde dich im Admin-Bereich an, um den Account freizuschalten.
+      </Text>
+    </EmailLayout>
   )
 }
+
+const h1: React.CSSProperties = { fontSize: '20px', fontWeight: '700', color: '#1e1b4b', marginBottom: '12px' }
+const body: React.CSSProperties = { fontSize: '15px', color: '#475569', lineHeight: '1.6', margin: '0 0 12px' }
+const infoBox: React.CSSProperties = { background: '#f0f0ff', borderRadius: '8px', padding: '16px 20px', margin: '16px 0' }
+const infoRow: React.CSSProperties = { fontSize: '14px', color: '#1e1b4b', margin: '0 0 4px' }
