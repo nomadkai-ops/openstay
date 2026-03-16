@@ -2,7 +2,6 @@
 
 import { useState } from 'react'
 import { DayPicker, type DateRange } from 'react-day-picker'
-import 'react-day-picker/dist/style.css'
 import { de } from 'date-fns/locale'
 import { isBefore } from 'date-fns'
 import type { CalendarEntry, VisitRequest } from '@/types'
@@ -102,17 +101,6 @@ export function KalenderAnsicht({ entries, requests, currentUserId, isAdmin, pre
         <span className="flex items-center gap-1.5"><span className="w-3 h-3 rounded-full bg-green-200 inline-block" /> Meine Anfrage (bestätigt)</span>
         <span className="flex items-center gap-1.5"><span className="w-3 h-3 rounded-full bg-red-200 inline-block" /> Meine Anfrage (abgelehnt)</span>
       </div>
-
-      <style>{`
-        .rdp-day-blocked { background-color: #e7e5e4 !important; color: #78716c !important; }
-        .rdp-day-other-approved { background-color: #bfdbfe !important; color: #1e40af !important; }
-        .rdp-day-my-pending { background-color: #fde68a !important; color: #92400e !important; }
-        .rdp-day-my-approved { background-color: #bbf7d0 !important; color: #14532d !important; }
-        .rdp-day-my-rejected { background-color: #fecaca !important; color: #7f1d1d !important; }
-        .rdp-day-past { opacity: 0.4; pointer-events: none; }
-        .rdp { margin: 0; }
-        .rdp-custom button { touch-action: manipulation; }
-      `}</style>
 
       <div className="flex justify-center">
       <DayPicker

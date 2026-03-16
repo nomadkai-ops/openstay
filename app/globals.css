@@ -127,3 +127,145 @@
     @apply font-sans;
   }
 }
+
+/* ============================================================
+   react-day-picker — full custom glass theme
+   (replaces react-day-picker/dist/style.css entirely)
+   ============================================================ */
+.rdp-root {
+  --rdp-accent-color: rgba(255, 255, 255, 0.35);
+  --rdp-accent-background-color: rgba(255, 255, 255, 0.35);
+  margin: 0;
+}
+
+/* Nav buttons */
+.rdp-button_previous,
+.rdp-button_next {
+  color: rgba(255, 255, 255, 0.8);
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 6px;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.rdp-button_previous:hover,
+.rdp-button_next:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+/* Month caption */
+.rdp-month_caption {
+  font-weight: 700;
+  font-size: 1rem;
+  color: white;
+  padding-bottom: 8px;
+}
+.rdp-caption_label {
+  font-weight: 700;
+  color: white;
+}
+
+/* Weekday headers */
+.rdp-weekday {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.5);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 4px 0;
+}
+
+/* Day cells base */
+.rdp-day {
+  border-radius: 6px;
+  font-size: 0.875rem;
+  color: rgba(255, 255, 255, 0.9);
+  transition: background 0.1s;
+  width: 40px;
+  height: 40px;
+}
+.rdp-day_button {
+  width: 100%;
+  height: 100%;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  background: rgba(255, 255, 255, 0.06);
+  border: none;
+  color: inherit;
+  font-size: inherit;
+}
+.rdp-day_button:hover {
+  background: rgba(255, 255, 255, 0.18);
+}
+
+/* Today */
+.rdp-today .rdp-day_button {
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.6);
+  font-weight: 700;
+}
+
+/* Selected range */
+.rdp-selected .rdp-day_button,
+.rdp-range_start .rdp-day_button,
+.rdp-range_end .rdp-day_button {
+  background: rgba(255, 255, 255, 0.32);
+  font-weight: 700;
+  color: white;
+}
+.rdp-range_middle .rdp-day_button {
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 0;
+  color: white;
+}
+.rdp-range_start .rdp-day_button {
+  border-radius: 6px 0 0 6px;
+}
+.rdp-range_end .rdp-day_button {
+  border-radius: 0 6px 6px 0;
+}
+.rdp-range_start.rdp-range_end .rdp-day_button {
+  border-radius: 6px;
+}
+
+/* Outside days */
+.rdp-outside .rdp-day_button {
+  color: rgba(255, 255, 255, 0.25);
+}
+
+/* Disabled / past days */
+.rdp-disabled .rdp-day_button,
+.rdp-day-past .rdp-day_button {
+  opacity: 0.3;
+  pointer-events: none;
+  cursor: not-allowed;
+}
+
+/* Custom status modifiers */
+.rdp-day-blocked .rdp-day_button {
+  background: rgba(255, 255, 255, 0.25);
+  color: rgba(255, 255, 255, 0.7);
+}
+.rdp-day-other-approved .rdp-day_button {
+  background: rgba(99, 102, 241, 0.55);
+  color: white;
+}
+.rdp-day-my-pending .rdp-day_button {
+  background: rgba(251, 191, 36, 0.55);
+  color: white;
+}
+.rdp-day-my-approved .rdp-day_button {
+  background: rgba(134, 239, 172, 0.45);
+  color: white;
+}
+.rdp-day-my-rejected .rdp-day_button {
+  background: rgba(248, 113, 113, 0.45);
+  color: white;
+}
