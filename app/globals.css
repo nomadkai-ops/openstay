@@ -121,7 +121,7 @@
     @apply border-border outline-ring/50;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-transparent text-foreground;
   }
   html {
     @apply font-sans;
@@ -136,6 +136,35 @@
   --rdp-accent-color: rgba(255, 255, 255, 0.35);
   --rdp-accent-background-color: rgba(255, 255, 255, 0.35);
   margin: 0;
+}
+
+/* Layout containers */
+.rdp-months {
+  display: flex;
+  flex-direction: column;
+}
+.rdp-month_caption {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.rdp-nav {
+  position: absolute;
+  top: 0;
+  right: 0;
+  display: flex;
+  gap: 4px;
+  align-items: center;
+}
+.rdp-month_grid {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+/* Nav button chevron icon */
+.rdp-chevron {
+  fill: rgba(255, 255, 255, 0.8);
 }
 
 /* Nav buttons */
@@ -207,7 +236,7 @@
 }
 
 /* Today */
-.rdp-today .rdp-day_button {
+.rdp-today:not(.rdp-outside) .rdp-day_button {
   box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.6);
   font-weight: 700;
 }
@@ -244,7 +273,6 @@
 .rdp-disabled .rdp-day_button,
 .rdp-day-past .rdp-day_button {
   opacity: 0.3;
-  pointer-events: none;
   cursor: not-allowed;
 }
 
@@ -267,5 +295,9 @@
 }
 .rdp-day-my-rejected .rdp-day_button {
   background: rgba(248, 113, 113, 0.45);
+  color: white;
+}
+.rdp-day-guest .rdp-day_button {
+  background: rgba(99, 102, 241, 0.55);
   color: white;
 }

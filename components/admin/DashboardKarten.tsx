@@ -3,7 +3,6 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import Link from 'next/link'
 import { DayPicker } from 'react-day-picker'
-import 'react-day-picker/dist/style.css'
 import { de } from 'date-fns/locale'
 import { parseISO } from 'date-fns'
 import { formatDateRange } from '@/lib/utils/datum'
@@ -95,19 +94,12 @@ export function DashboardKarten({ pendingRequests, upcomingVisits, pendingUsers,
           <CardTitle className="text-sm font-medium text-stone-500">Kalenderübersicht</CardTitle>
         </CardHeader>
         <CardContent>
-          <style>{`
-            .admin-mini-cal .rdp-day-blocked { background-color: #e7e5e4 !important; }
-            .admin-mini-cal .rdp-day-guest { background-color: #bfdbfe !important; }
-            .admin-mini-cal .rdp { margin: 0; }
-          `}</style>
-          <div className="admin-mini-cal">
-            <DayPicker
+          <DayPicker
               locale={de}
               modifiers={{ blocked: blockedDays, guest: guestDays }}
               modifiersClassNames={{ blocked: 'rdp-day-blocked', guest: 'rdp-day-guest' }}
               showOutsideDays
             />
-          </div>
         </CardContent>
       </Card>
     </div>
