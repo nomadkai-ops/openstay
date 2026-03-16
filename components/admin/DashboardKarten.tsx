@@ -1,6 +1,5 @@
 'use client'
 
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import Link from 'next/link'
 import { DayPicker } from 'react-day-picker'
 import { de } from 'date-fns/locale'
@@ -17,91 +16,82 @@ interface Props {
 }
 
 export function DashboardKarten({ pendingRequests, upcomingVisits, pendingUsers, calendarEntries, approvedRequests }: Props) {
-  // Build modifiers for mini-calendar: all occupied dates
   const blockedDays = calendarEntries.flatMap(e => {
     const days: Date[] = []
-    const start = parseISO(e.start_date)
+    const cur = new Date(parseISO(e.start_date))
     const end = parseISO(e.end_date)
-    const cur = new Date(start)
     while (cur <= end) { days.push(new Date(cur)); cur.setDate(cur.getDate() + 1) }
     return days
   })
 
   const guestDays = approvedRequests.flatMap(r => {
     const days: Date[] = []
-    const start = parseISO(r.start_date)
+    const cur = new Date(parseISO(r.start_date))
     const end = parseISO(r.end_date)
-    const cur = new Date(start)
     while (cur <= end) { days.push(new Date(cur)); cur.setDate(cur.getDate() + 1) }
     return days
   })
 
   return (
     <div className="space-y-6">
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+      {/* Stat cards */}
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
         <Link href="/admin/anfragen">
-          <Card className="hover:shadow-md transition-shadow cursor-pointer">
-            <CardHeader className="pb-2">
-              <CardTitle className="text-sm font-medium text-stone-500">Offene Anfragen</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p className="text-3xl font-bold text-stone-800">{pendingRequests.length}</p>
-              {pendingRequests.length > 0 && (
-                <p className="text-xs text-amber-600 mt-1">Warten auf Prüfung</p>
-              )}
-            </CardContent>
-          </Card>
+          <div className="bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl p-6 hover:bg-white/15 transition-colors cursor-pointer">
+            <div className="w-10 h-10 rounded-xl bg-amber-400/20 border border-amber-300/30 flex items-center justify-center mb-4">
+              <span className="text-lg" aria-hidden="true">📋</span>
+            </div>
+            <p className="text-4xl font-bold text-white">{pendingRequests.length}</p>
+            <p className="text-white/60 text-sm mt-1">Offene Anfragen</p>
+            {pendingRequests.length > 0 && (
+              <p className="text-amber-300 text-xs mt-1">Warten auf Prüfung</p>
+            )}
+          </div>
         </Link>
 
-        <Card>
-          <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-stone-500">Nächste Besuche</CardTitle>
-          </CardHeader>
-          <CardContent>
-            {upcomingVisits.length === 0 ? (
-              <p className="text-sm text-stone-400">Keine geplanten Besuche</p>
-            ) : (
-              <div className="space-y-2">
-                {upcomingVisits.slice(0, 3).map(v => (
-                  <div key={v.id} className="text-sm">
-                    <p className="font-medium text-stone-700">{v.name}</p>
-                    <p className="text-stone-400 text-xs">{formatDateRange(v.start_date, v.end_date)}</p>
-                  </div>
-                ))}
-              </div>
-            )}
-          </CardContent>
-        </Card>
+        <div className="bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl p-6">
+          <div className="w-10 h-10 rounded-xl bg-green-400/20 border border-green-300/30 flex items-center justify-center mb-4">
+            <span className="text-lg" aria-hidden="true">🏡</span>
+          </div>
+          <p className="text-white/60 text-sm mb-3">Nächste Besuche</p>
+          {upcomingVisits.length === 0 ? (
+            <p className="text-white/40 text-sm">Keine geplanten Besuche</p>
+          ) : (
+            <div className="space-y-2">
+              {upcomingVisits.slice(0, 3).map(v => (
+                <div key={v.id}>
+                  <p className="font-semibold text-white text-sm">{v.name}</p>
+                  <p className="text-white/50 text-xs">{formatDateRange(v.start_date, v.end_date)}</p>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
 
         <Link href="/admin/nutzer">
-          <Card className="hover:shadow-md transition-shadow cursor-pointer">
-            <CardHeader className="pb-2">
-              <CardTitle className="text-sm font-medium text-stone-500">Neue Nutzer</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p className="text-3xl font-bold text-stone-800">{pendingUsers.length}</p>
-              {pendingUsers.length > 0 && (
-                <p className="text-xs text-indigo-600 mt-1">Warten auf Freischaltung</p>
-              )}
-            </CardContent>
-          </Card>
+          <div className="bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl p-6 hover:bg-white/15 transition-colors cursor-pointer">
+            <div className="w-10 h-10 rounded-xl bg-indigo-400/20 border border-indigo-300/30 flex items-center justify-center mb-4">
+              <span className="text-lg" aria-hidden="true">👥</span>
+            </div>
+            <p className="text-4xl font-bold text-white">{pendingUsers.length}</p>
+            <p className="text-white/60 text-sm mt-1">Neue Nutzer</p>
+            {pendingUsers.length > 0 && (
+              <p className="text-indigo-300 text-xs mt-1">Warten auf Freischaltung</p>
+            )}
+          </div>
         </Link>
       </div>
 
-      {/* Mini-calendar: read-only overview */}
-      <Card>
-        <CardHeader className="pb-2">
-          <CardTitle className="text-sm font-medium text-stone-500">Kalenderübersicht</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <DayPicker
-              locale={de}
-              modifiers={{ blocked: blockedDays, guest: guestDays }}
-              modifiersClassNames={{ blocked: 'rdp-day-blocked', guest: 'rdp-day-guest' }}
-              showOutsideDays
-            />
-        </CardContent>
-      </Card>
+      {/* Mini calendar */}
+      <div className="bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl p-6">
+        <p className="text-white/60 text-sm font-semibold uppercase tracking-wide mb-4">Kalenderübersicht</p>
+        <DayPicker
+          locale={de}
+          modifiers={{ blocked: blockedDays, guest: guestDays }}
+          modifiersClassNames={{ blocked: 'rdp-day-blocked', guest: 'rdp-day-other-approved' }}
+          showOutsideDays
+        />
+      </div>
     </div>
   )
 }

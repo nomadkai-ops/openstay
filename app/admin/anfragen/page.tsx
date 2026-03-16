@@ -12,7 +12,7 @@ export default async function AdminAnfragenPage() {
 
   return (
     <div>
-      <h1 className="text-2xl font-semibold text-stone-800 mb-8">Anfragen</h1>
+      <h1 className="text-2xl font-bold text-white mb-8">Anfragen</h1>
       <AnfragenTabelle requests={(requests ?? []) as VisitRequest[]} />
     </div>
   )

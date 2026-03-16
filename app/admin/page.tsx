@@ -16,7 +16,7 @@ export default async function AdminDashboard() {
 
   return (
     <div>
-      <h1 className="text-2xl font-semibold text-stone-800 mb-8">Dashboard</h1>
+      <h1 className="text-2xl font-bold text-white mb-8">Dashboard</h1>
       <DashboardKarten
         pendingRequests={(pendingReqResult.data ?? []) as VisitRequest[]}
         upcomingVisits={(upcomingResult.data ?? []) as VisitRequest[]}

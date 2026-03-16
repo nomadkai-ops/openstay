@@ -13,7 +13,7 @@ export default async function AdminNutzerPage() {
 
   return (
     <div className="max-w-2xl">
-      <h1 className="text-2xl font-semibold text-stone-800 mb-8">Nutzer</h1>
+      <h1 className="text-2xl font-bold text-white mb-8">Nutzer</h1>
       <NutzerTabelle users={(users ?? []) as Profile[]} />
     </div>
   )
