@@ -3,7 +3,6 @@
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { logout } from '@/lib/actions/auth'
-import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
 
 const navItems = [
@@ -17,10 +16,10 @@ export function AdminSidebar() {
   const pathname = usePathname()
 
   return (
-    <aside className="w-56 shrink-0 border-r border-stone-200 bg-white min-h-screen flex flex-col">
-      <div className="px-5 py-6 border-b border-stone-100">
-        <p className="font-semibold text-stone-800">OpenStay</p>
-        <p className="text-xs text-stone-400 mt-0.5">Admin</p>
+    <aside className="hidden md:flex w-56 shrink-0 flex-col bg-black/25 backdrop-blur-xl border-r border-white/10 min-h-screen">
+      <div className="px-5 py-6 border-b border-white/10">
+        <p className="font-bold text-white tracking-tight">OpenStay</p>
+        <p className="text-xs text-white/40 mt-0.5">Admin</p>
       </div>
       <nav className="flex-1 px-3 py-4 space-y-1">
         {navItems.map(item => {
@@ -32,8 +31,8 @@ export function AdminSidebar() {
               className={cn(
                 'block rounded-lg px-3 py-2 text-sm font-medium transition-colors',
                 active
-                  ? 'bg-indigo-50 text-indigo-700'
-                  : 'text-stone-600 hover:bg-stone-50 hover:text-stone-900'
+                  ? 'bg-white/20 text-white'
+                  : 'text-white/60 hover:bg-white/10 hover:text-white'
               )}
             >
               {item.label}
@@ -41,11 +40,14 @@ export function AdminSidebar() {
           )
         })}
       </nav>
-      <div className="px-3 py-4 border-t border-stone-100">
+      <div className="px-3 py-4 border-t border-white/10">
         <form action={logout}>
-          <Button variant="ghost" type="submit" className="w-full justify-start text-stone-500 text-sm">
+          <button
+            type="submit"
+            className="w-full text-left rounded-lg px-3 py-2 text-sm text-white/50 hover:text-white hover:bg-white/10 transition-colors"
+          >
             Abmelden
-          </Button>
+          </button>
         </form>
       </div>
     </aside>
