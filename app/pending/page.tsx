@@ -12,7 +12,7 @@ export default function PendingPage() {
           </div>
           <div className="space-y-3">
             <div className="w-14 h-14 rounded-full bg-white/10 border border-white/20 flex items-center justify-center mx-auto">
-              <span className="text-2xl">⏳</span>
+              <span className="text-2xl" aria-hidden="true">⏳</span>
             </div>
             <p className="text-white font-medium">Dein Account wird geprüft</p>
             <p className="text-white/60 text-sm leading-relaxed">

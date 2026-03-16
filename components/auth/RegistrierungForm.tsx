@@ -20,6 +20,7 @@ export function RegistrierungForm() {
       setError(result.error)
       setLoading(false)
     } else if (result?.success) {
+      setLoading(false)
       setSuccess(true)
     }
   }
@@ -52,7 +53,7 @@ export function RegistrierungForm() {
         <Input id="password" name="password" type="password" required autoComplete="new-password" minLength={8}
           className="bg-white/10 border-white/20 text-white placeholder:text-white/30 focus-visible:ring-white/40 focus-visible:border-white/40" />
       </div>
-      {error && <p className="text-sm text-red-300">{error}</p>}
+      {error && <p role="alert" className="text-sm text-red-300">{error}</p>}
       <Button type="submit" className="w-full bg-white text-indigo-700 font-semibold hover:bg-white/90" disabled={loading}>
         {loading ? 'Registrieren…' : 'Account erstellen'}
       </Button>
