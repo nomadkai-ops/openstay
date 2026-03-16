@@ -1,4 +1,5 @@
-import { Html, Head, Body, Container, Heading, Text, Section } from '@react-email/components'
+import { Heading, Text } from '@react-email/components'
+import { EmailLayout } from './EmailLayout'
 import { formatDateRange } from '@/lib/utils/datum'
 
 interface Props {
@@ -12,22 +13,27 @@ interface Props {
 
 export function NeueAnfrage({ name, email, start_date, end_date, guest_count, message }: Props) {
   return (
-    <Html lang="de">
-      <Head />
-      <Body style={{ fontFamily: 'Inter, sans-serif', backgroundColor: '#fafaf9', padding: '40px 0' }}>
-        <Container style={{ backgroundColor: '#ffffff', borderRadius: '12px', padding: '32px', maxWidth: '480px', margin: '0 auto', border: '1px solid #e7e5e4' }}>
-          <Heading style={{ fontSize: '20px', color: '#1c1917', marginBottom: '8px' }}>Neue Besuchsanfrage</Heading>
-          <Section style={{ backgroundColor: '#f5f5f4', borderRadius: '8px', padding: '16px', marginBottom: '16px' }}>
-            <Text style={{ color: '#1c1917', fontSize: '14px', margin: '0 0 4px 0' }}><strong>Von:</strong> {name} ({email})</Text>
-            <Text style={{ color: '#1c1917', fontSize: '14px', margin: '0 0 4px 0' }}><strong>Zeitraum:</strong> {formatDateRange(start_date, end_date)}</Text>
-            <Text style={{ color: '#1c1917', fontSize: '14px', margin: '0 0 4px 0' }}><strong>Personen:</strong> {guest_count}</Text>
-            <Text style={{ color: '#1c1917', fontSize: '14px', margin: '0' }}><strong>Nachricht:</strong> {message}</Text>
-          </Section>
-          <Text style={{ color: '#57534e', fontSize: '14px' }}>
-            Melde dich im Admin-Bereich an, um die Anfrage zu bestätigen oder abzulehnen.
-          </Text>
-        </Container>
-      </Body>
-    </Html>
+    <EmailLayout preview={`Neue Besuchsanfrage von ${name}`}>
+      <Heading style={h1}>Neue Besuchsanfrage</Heading>
+      <Text style={body}>Es ist eine neue Anfrage eingegangen:</Text>
+      <div style={infoBox}>
+        <Text style={infoRow}><strong>Name:</strong> {name}</Text>
+        <Text style={infoRow}><strong>E-Mail:</strong> {email}</Text>
+        <Text style={infoRow}><strong>Zeitraum:</strong> {formatDateRange(start_date, end_date)}</Text>
+        <Text style={infoRow}><strong>Personen:</strong> {guest_count}</Text>
+      </div>
+      <Text style={label}>Nachricht</Text>
+      <div style={messageBox}>
+        <Text style={messageText}>{message}</Text>
+      </div>
+    </EmailLayout>
   )
 }
+
+const h1: React.CSSProperties = { fontSize: '20px', fontWeight: '700', color: '#1e1b4b', marginBottom: '12px' }
+const body: React.CSSProperties = { fontSize: '15px', color: '#475569', lineHeight: '1.6', margin: '0 0 12px' }
+const infoBox: React.CSSProperties = { background: '#f0f0ff', borderRadius: '8px', padding: '16px 20px', margin: '16px 0' }
+const infoRow: React.CSSProperties = { fontSize: '14px', color: '#1e1b4b', margin: '0 0 4px' }
+const label: React.CSSProperties = { fontSize: '12px', fontWeight: '600', color: '#94a3b8', textTransform: 'uppercase', letterSpacing: '0.05em', margin: '16px 0 4px' }
+const messageBox: React.CSSProperties = { background: '#f8fafc', border: '1px solid #e2e8f0', borderRadius: '8px', padding: '12px 16px' }
+const messageText: React.CSSProperties = { fontSize: '14px', color: '#475569', margin: '0', lineHeight: '1.6' }
