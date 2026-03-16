@@ -1,18 +1,17 @@
 import { LoginForm } from '@/components/auth/LoginForm'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 
 export default function LoginPage() {
   return (
-    <main className="min-h-screen flex items-center justify-center p-4">
-      <Card className="w-full max-w-sm shadow-lg">
-        <CardHeader className="text-center">
-          <CardTitle className="text-2xl font-semibold">OpenStay</CardTitle>
-          <CardDescription>Melde dich an, um den Kalender zu sehen</CardDescription>
-        </CardHeader>
-        <CardContent>
+    <div className="min-h-screen flex items-center justify-center px-4 py-12">
+      <div className="w-full max-w-sm">
+        <div className="text-center mb-8">
+          <h1 className="text-3xl font-bold text-white tracking-tight">OpenStay</h1>
+          <p className="text-white/60 mt-1 text-sm">Melde dich an</p>
+        </div>
+        <div className="bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl p-8 shadow-2xl">
           <LoginForm />
-        </CardContent>
-      </Card>
-    </main>
+        </div>
+      </div>
+    </div>
   )
 }

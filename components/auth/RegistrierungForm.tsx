@@ -27,8 +27,8 @@ export function RegistrierungForm() {
   if (success) {
     return (
       <div className="text-center space-y-2">
-        <p className="text-stone-700 font-medium">Registrierung erfolgreich!</p>
-        <p className="text-sm text-stone-500">
+        <p className="text-white font-medium">Registrierung erfolgreich!</p>
+        <p className="text-sm text-white/60">
           Bitte bestätige deine E-Mail-Adresse. Danach wird dein Account vom Admin freigeschaltet.
         </p>
       </div>
@@ -38,24 +38,27 @@ export function RegistrierungForm() {
   return (
     <form action={handleSubmit} className="space-y-4">
       <div className="space-y-2">
-        <Label htmlFor="name">Name</Label>
-        <Input id="name" name="name" placeholder="Dein Name" required autoComplete="name" />
+        <Label htmlFor="name" className="text-white/80 text-sm">Name</Label>
+        <Input id="name" name="name" placeholder="Dein Name" required autoComplete="name"
+          className="bg-white/10 border-white/20 text-white placeholder:text-white/30 focus-visible:ring-white/40 focus-visible:border-white/40" />
       </div>
       <div className="space-y-2">
-        <Label htmlFor="email">E-Mail</Label>
-        <Input id="email" name="email" type="email" placeholder="deine@email.de" required autoComplete="email" />
+        <Label htmlFor="email" className="text-white/80 text-sm">E-Mail</Label>
+        <Input id="email" name="email" type="email" placeholder="deine@email.de" required autoComplete="email"
+          className="bg-white/10 border-white/20 text-white placeholder:text-white/30 focus-visible:ring-white/40 focus-visible:border-white/40" />
       </div>
       <div className="space-y-2">
-        <Label htmlFor="password">Passwort</Label>
-        <Input id="password" name="password" type="password" required autoComplete="new-password" minLength={8} />
+        <Label htmlFor="password" className="text-white/80 text-sm">Passwort</Label>
+        <Input id="password" name="password" type="password" required autoComplete="new-password" minLength={8}
+          className="bg-white/10 border-white/20 text-white placeholder:text-white/30 focus-visible:ring-white/40 focus-visible:border-white/40" />
       </div>
-      {error && <p className="text-sm text-red-600">{error}</p>}
-      <Button type="submit" className="w-full" disabled={loading}>
+      {error && <p className="text-sm text-red-300">{error}</p>}
+      <Button type="submit" className="w-full bg-white text-indigo-700 font-semibold hover:bg-white/90" disabled={loading}>
         {loading ? 'Registrieren…' : 'Account erstellen'}
       </Button>
-      <p className="text-center text-sm text-stone-500">
+      <p className="text-center text-sm text-white/60">
         Bereits registriert?{' '}
-        <Link href="/login" className="text-indigo-600 hover:underline">
+        <Link href="/login" className="text-white font-medium hover:underline">
           Anmelden
         </Link>
       </p>
