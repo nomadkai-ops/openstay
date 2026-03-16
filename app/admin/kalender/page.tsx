@@ -2,7 +2,6 @@ import { createClient } from '@/lib/supabase/server'
 import { KalenderBlockForm } from '@/components/admin/KalenderBlockForm'
 import { deleteKalenderBlock } from '@/lib/actions/kalender'
 import { formatDateRange } from '@/lib/utils/datum'
-import { Button } from '@/components/ui/button'
 import type { CalendarEntry } from '@/types'
 
 const typeLabels: Record<string, string> = {
@@ -46,9 +45,9 @@ export default async function AdminKalenderPage() {
             {!entry.linked_request_id && (
               <form action={handleDelete}>
                 <input type="hidden" name="id" value={entry.id} />
-                <Button size="sm" variant="ghost" type="submit" className="text-red-500 hover:text-red-700">
+                <button type="submit" className="text-xs text-red-300/70 hover:text-red-300 px-3 py-1.5 rounded-lg hover:bg-red-400/10 transition-colors">
                   Löschen
-                </Button>
+                </button>
               </form>
             )}
           </div>

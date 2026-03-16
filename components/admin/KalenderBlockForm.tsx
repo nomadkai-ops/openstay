@@ -18,14 +18,19 @@ export function KalenderBlockForm() {
   async function handleSubmit(formData: FormData) {
     setLoading(true)
     setError(null)
-    const result = await createKalenderBlock(formData)
-    if (result?.error) {
-      setError(result.error)
-    } else {
-      setSuccess(true)
-      setTimeout(() => setSuccess(false), 2000)
+    try {
+      const result = await createKalenderBlock(formData)
+      if (result?.error) {
+        setError(result.error)
+      } else {
+        setSuccess(true)
+        setTimeout(() => setSuccess(false), 2000)
+      }
+    } catch {
+      setError('Ein Fehler ist aufgetreten. Bitte versuche es erneut.')
+    } finally {
+      setLoading(false)
     }
-    setLoading(false)
   }
 
   return (
